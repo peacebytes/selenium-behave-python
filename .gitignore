@@ -1,0 +1,4 @@
+*.log
+failed_scenarios_screenshots
+venv
+reports
