@@ -6,13 +6,6 @@ source venv/bin/activate
 pip install -r requirements.text
 ```
 
-# How to load virtual environment with all dependencies
-```
-source venv/bin/activate
-nvm install 10.9
-nvm use 10.9
-```
-
 # How to run
 Chrome
 ```
