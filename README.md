@@ -3,7 +3,6 @@
 pip install virtualenv
 virtualenv venv
 source venv/bin/activate
-pip install -r requirements.text
 ```
 
 # How to load virtual environment with all dependencies
@@ -11,16 +10,17 @@ pip install -r requirements.text
 source venv/bin/activate
 nvm install 10.9
 nvm use 10.9
+pip install -r requirements.text
 ```
 
 # How to run
 Chrome
 ```
-behave features/testcases/CompletePurchase.feature
+behave features/testcases/CompleteShoppingCart.feature
 ```
 Firefox
 ```
-behave features/testcases/CompletePurchase.feature -D BROWSER=firefox
+behave features/testcases/CompleteShoppingCart.feature -D BROWSER=firefox
 ```
 # Troubleshooting with webdrivers
 Check where webdriver being used
