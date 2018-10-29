@@ -17,6 +17,19 @@ behave
 behave features/testcases/Smoketest.feature -D BROWSER=firefox
 ```
 
+# How to set and use global variables?
+In any step definition file, set global variable by using `context`. For example:
+```
+context.a = 1
+context.b = 9
+```
+Agin, in step definition files, use global variable by using `context`. For example:
+```
+context.sum = int(context.a) + int(context.b)
+```
+
+* Notes: `context` is retained within a test scenario only.
+
 # How assertion to be done?
 Values comparison including complex data structure. See usage at:
 Ref: https://pypi.org/project/compare/
