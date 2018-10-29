@@ -1,0 +1,16 @@
+# Todo
+1. Environment: See http://www.seleniumframework.com/python-frameworks/road-map-and-future-state/
+- URL
+- Username
+- Password
+self.timeout = 30 in class BasePage(object):
+2. Config
+- Browser capabilities
+- Browserstack
+- Global variables
+- Test data
+3. Html report
+4. Adding more page objects, steps, features
+- Assertion
+5. Using tag to auto-load AUT and do systemLogin
+- Running feature fiels by @tag

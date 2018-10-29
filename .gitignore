@@ -2,3 +2,6 @@
 failed_scenarios_screenshots
 venv
 reports
+*/*/*/*.pyc
+*/*/*.pyc
+*/*.pyc

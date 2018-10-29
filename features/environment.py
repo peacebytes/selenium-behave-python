@@ -52,7 +52,7 @@ def before_scenario(context, scenario):
     elif BROWSER == 'phantomjs':
         context.browser = webdriver.PhantomJS()
     else:
-        print("Browser you entered:", BROWSER, "is invalid value")
+        print("Browser you entered: ", BROWSER, " is invalid value")
 
     context.browser.maximize_window()
     print("Before scenario\n")

@@ -15,7 +15,7 @@ class LoginPage(BasePage):
             self,
             context.browser)
 
-    def login(self,username="abc@xyz.com",passwd="Test@123"):
+    def login(self,username,passwd):
         self.find_element(*self.locator_dictionary['email']).send_keys(username)
         self.find_element(*self.locator_dictionary['password']).send_keys(passwd)
         self.find_element(*self.locator_dictionary['signin_button']).click()
