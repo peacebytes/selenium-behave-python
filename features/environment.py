@@ -45,7 +45,6 @@ def before_scenario(context, scenario):
     elif BROWSER == 'firefox':
         context.browser = webdriver.Firefox()
     elif BROWSER == 'headless':
-        print("Inside headless code \n ")
         chrome_options = Options()
         chrome_options.add_argument("--headless")
         context.browser = webdriver.Chrome(chrome_options=chrome_options)
