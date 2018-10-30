@@ -1,8 +1,21 @@
-# How to set up
+
+# How to create virtual env
+For Linux
 ```
 pip install virtualenv
 virtualenv venv
 source venv/bin/activate
+```
+
+For Windows
+```
+pip install virtualenv
+virtualenv venv
+source venv/Scripts/activate
+```
+
+# How to set up dependencies
+```
 pip install -r requirements.text
 ```
 
