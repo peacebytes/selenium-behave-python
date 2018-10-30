@@ -8,6 +8,7 @@ import shutil
 import time
 import logging
 from lib.pagefactory import on
+from selenium.webdriver.chrome.options import Options
 
 
 
@@ -43,14 +44,11 @@ def before_scenario(context, scenario):
         context.browser = webdriver.Chrome()
     elif BROWSER == 'firefox':
         context.browser = webdriver.Firefox()
-    elif BROWSER == 'safari':
-        context.browser = webdriver.Safari()
-    elif BROWSER == 'ie':
-        context.browser = webdriver.Ie()
-    elif BROWSER == 'opera':
-        context.browser = webdriver.Opera()
-    elif BROWSER == 'phantomjs':
-        context.browser = webdriver.PhantomJS()
+    elif BROWSER == 'headless':
+        print("Inside headless code \n ")
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        context.browser = webdriver.Chrome(chrome_options=chrome_options)
     else:
         print("Browser you entered: ", BROWSER, " is invalid value")
 
