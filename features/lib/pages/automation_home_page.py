@@ -5,9 +5,7 @@ from base_page_object import BasePage
 class AutomationHomePage(BasePage):
 
     def __init__(self, context):
-        BasePage.__init__(
-            self,
-            context.browser)
+        BasePage.__init__(self, context)
 
     locator_dictionary = {
         "sign_in": (By.LINK_TEXT, 'Sign in'),

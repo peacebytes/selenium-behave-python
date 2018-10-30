@@ -4,7 +4,7 @@ from compare import expect
 
 use_step_matcher("re")
 
-@step('I login with username "([^"]*)" and password "([^"]*)"')
-def step_impl(context,username,password):
+@step('I login automationpractice website')
+def step_impl(context):
     page = LoginPage(context)
-    page.login(username=username,passwd=password)
+    page.login(username=context.user,passwd=context.passwd)

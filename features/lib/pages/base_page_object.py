@@ -7,9 +7,9 @@ import time
 
 class BasePage(object):
 
-    def __init__(self, browser):
-        self.browser = browser
-        self.timeout = 30
+    def __init__(self, context):
+        self.browser = context.wdriver
+        self.timeout = context.timeout
 
     def find_element(self, *loc):
         return self.browser.find_element(*loc)

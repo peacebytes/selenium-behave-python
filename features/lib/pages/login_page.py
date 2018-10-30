@@ -11,9 +11,7 @@ class LoginPage(BasePage):
     }
 
     def __init__(self, context):
-        BasePage.__init__(
-            self,
-            context.browser)
+        BasePage.__init__(self, context)
 
     def login(self,username,passwd):
         self.find_element(*self.locator_dictionary['email']).send_keys(username)
