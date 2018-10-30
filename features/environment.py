@@ -6,22 +6,24 @@ from lib.pagefactory import on
 from selenium.webdriver.chrome.options import Options
 from ConfigParser import SafeConfigParser
 import json
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 def before_all(context):
-     print("Loading configs.ini")
+     print("Loading Configs.ini and TestData.json ...")
      # Loading configs.ini
      config = SafeConfigParser()
      config.read('./resources/Configs.ini')
+     #Config
      context.host = config.get('config', 'host')
      context.user = config.get('config', 'user')
      context.passwd = config.get('config', 'passwd')
      context.browser = config.get('config', 'browser')
      context.env = config.get('config', 'env')
      context.timeout = config.getint('config', 'timeout')
-     print("context.host: %s" % context.host)
-     print("context.user: %s" % context.user)
-     print("context.passwd: %s" % context.passwd)
-     print("context.timeout: %s" % context.timeout)
+     #BS
+     context.bsusername = config.get('browserstack', 'USERNAME')
+     context.bsautomate_key = config.get('browserstack', 'AUTOMATE_KEY')
+     context.os = config.get('browserstack', 'os')
 
      # Loading testdata.json
      with open('./resources/TestData.json', 'r') as f:
@@ -41,22 +43,30 @@ def before_scenario(context, scenario):
      if context.config.userdata['env'] is not None:
       context.env = context.config.userdata['env']
 
-    print("context.browser: %s" % context.browser)
-    print("context.env: %s" % context.env)
-
     BROWSER = context.browser;
     ENV = context.env;
     # Set up webdriver before each scenario
-    if BROWSER == 'chrome':
-        context.wdriver = webdriver.Chrome()
-    elif BROWSER == 'firefox':
-        context.wdriver = webdriver.Firefox()
-    elif BROWSER == 'headless':
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        context.wdriver = webdriver.Chrome(chrome_options=chrome_options)
+    if ENV == 'local':
+        if BROWSER == 'chrome':
+            context.wdriver = webdriver.Chrome()
+        elif BROWSER == 'firefox':
+            context.wdriver = webdriver.Firefox()
+        elif BROWSER == 'headless':
+            chrome_options = Options()
+            chrome_options.add_argument("--headless")
+            context.wdriver = webdriver.Chrome(chrome_options=chrome_options)
+        else:
+            print("Browser you entered [%s] is not supported." % BROWSER)
+    elif ENV == 'bs':
+        print("Setting up browserstack connection ...")
+        caps = {}
+        caps['browser'] = BROWSER
+        caps['os'] = context.os
+        context.wdriver = webdriver.Remote(
+        desired_capabilities=caps,
+        command_executor="http://%s:%s@hub.browserstack.com/wd/hub" % (context.bsusername, context.bsautomate_key))
     else:
-        print("Browser you entered: [" + BROWSER + "] is invalid value")
+        print("Env you entered [%s] is not supported." % ENV)
 
     # Clear cookies before each scenario
     context.wdriver.delete_all_cookies();
