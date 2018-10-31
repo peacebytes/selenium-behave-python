@@ -1,5 +1,18 @@
+# README #
 
-# How to create virtual env
+### What is this? ###
+
+This repository is used for automated functional test of web application.
+
+Based on: 
+- selenium
+- behave
+- python
+
+* Note: Python version >= 3.7
+
+
+### How to create virtual env
 For Linux
 ```
 pip install virtualenv
@@ -14,18 +27,18 @@ virtualenv venv
 source venv/Scripts/activate
 ```
 
-# How to set up dependencies
+### How to set up dependencies
 ```
 pip install -r requirements.text
 ```
 
-# How to run
+### How to run
 (Defaul on browser:headless, env: local)
 ```
 behave
 ```
 
-## More options to test on local?
+### More options to test on local?
 Put `@skip` on top of feature files to skip executing them
 ```
 behave
@@ -46,7 +59,7 @@ Execute testing specific feature files and selected browser
 behave features/testcases/Smoketest.feature -D browser=firefox
 ```
 
-## How do I execute test on Browserstack?
+### How do I execute test on Browserstack?
 Chrome
 ```
 behave -D browser=chrome -D env=bs
@@ -56,7 +69,7 @@ Firefox
 behave -D browser=firefox -D env=bs
 ```
 
-## How to deal with test data?
+### How to deal with test data?
 Test data is stored at `resources\TestData.json`
 
 Examples of usage in Step Definition files:
@@ -69,7 +82,7 @@ context.testdata['addresses'][1]['alias']
 context.testdata['address']['alias']
 ```
 
-# How to set and use global variables?
+### How to set and use global variables?
 In any step definition file, set global variable by using `context`. For example:
 ```
 context.a = 1
@@ -81,10 +94,10 @@ context.sum = int(context.a) + int(context.b)
 ```
 * Notes: `context` is retained within a test scenario only.
 
-# Report
+### Reports
 On local: execute this command to see 1 report for each feature file.
 ```
 junit2html reports/TESTS-testcases.Smoketest.xml reports/behave.Smoketest.html
 google-chrome reports/behave.Smoketest.html
 ```
-On Jenkins: feeding cucumber-report with json file at `reports/results.json`
+On Jenkins: feeding cucumber-report with json file at `reports/results.json`.
