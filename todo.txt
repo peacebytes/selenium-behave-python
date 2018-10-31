@@ -2,3 +2,8 @@
 1. Html report
 2. Adding more page objects, steps, features
 3. Assertion
+
+# How assertion to be done?
+Values comparison including complex data structure. See usage at:
+Ref: https://pypi.org/project/compare/
+Use: https://pythonhosted.org/compare/#api-reference

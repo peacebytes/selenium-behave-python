@@ -44,4 +44,4 @@ class BasePage(object):
             super(BasePage, self).__getattribute__("method_missing")(what)
 
     def method_missing(self, what):
-        print "No %s here!"%what
+        print ("No %s here!"%what)

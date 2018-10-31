@@ -4,7 +4,7 @@ init()
 import os
 from lib.pagefactory import on
 from selenium.webdriver.chrome.options import Options
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 import json
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 

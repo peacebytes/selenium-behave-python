@@ -81,10 +81,10 @@ context.sum = int(context.a) + int(context.b)
 ```
 * Notes: `context` is retained within a test scenario only.
 
-# How assertion to be done?
-Values comparison including complex data structure. See usage at:
-Ref: https://pypi.org/project/compare/
-Use: https://pythonhosted.org/compare/#api-reference
-
 # Report
-https://pypi.python.org/pypi/allure-behave/
+On local: execute this command to see 1 report for each feature file.
+```
+junit2html reports/TESTS-testcases.Smoketest.xml reports/behave.Smoketest.html
+google-chrome reports/behave.Smoketest.html
+```
+On Jenkins: feeding cucumber-report with json file at `reports/results.json`

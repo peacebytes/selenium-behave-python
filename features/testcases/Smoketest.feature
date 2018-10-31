@@ -1,4 +1,4 @@
-Feature: Login to portal
+Feature: Smoke Test
 
   Scenario: Login and logout
     When I open automationpractice website
