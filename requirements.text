@@ -5,3 +5,4 @@ openpyxl==2.2.4
 pillow==2.9.0
 pyyaml==3.11
 compare==0.2b
+allure-behave==2.5.3
