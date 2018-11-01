@@ -12,8 +12,9 @@ class LoginPage(BasePage):
 
     def __init__(self, context):
         BasePage.__init__(self, context)
+        self.su = context.su
 
     def login(self,username,passwd):
-        self.find_element(*self.locator_dictionary['email']).send_keys(username)
-        self.find_element(*self.locator_dictionary['password']).send_keys(passwd)
-        self.find_element(*self.locator_dictionary['signin_button']).click()
+        self.su.enterText(username, self.su.find_element(*self.locator_dictionary['email']))
+        self.su.enterText(passwd, self.su.find_element(*self.locator_dictionary['password']))
+        self.su.clickElement(self.su.find_element(*self.locator_dictionary['signin_button']))

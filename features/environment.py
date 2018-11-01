@@ -5,9 +5,11 @@ import os
 from lib.pagefactory import on
 from selenium.webdriver.chrome.options import Options
 # noinspection PyInterpreter
-from configparser import SafeConfigParser
+from ConfigParser import SafeConfigParser
 import json
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from features.lib.utils import SeleniumUtils
+from features.lib.pages import *
 
 def before_all(context):
      print("Loading Configs.ini and TestData.json ...")
@@ -73,12 +75,17 @@ def before_scenario(context, scenario):
     context.wdriver.delete_all_cookies();
     context.wdriver.maximize_window()
 
+    # Initialize page objects here
+    context.su = SeleniumUtils(context)
+    context.LoginPage = LoginPage(context)
+    context.HeaderFooter = HeaderFooter(context)
+
 def after_scenario(context, scenario):
     print("   Scenario Status: %s" % (scenario.status))
     if scenario.status == "failed":
-        if not os.path.exists("failed_scenarios_screenshots"):
-            os.makedirs("failed_scenarios_screenshots")
-        os.chdir("failed_scenarios_screenshots")
+        if not os.path.exists("screenshots"):
+            os.makedirs("screenshots")
+        os.chdir("screenshots")
         context.browser.save_screenshot(scenario.name + "_failed.png")
     # Destroy webdriver after each scenario
     context.wdriver.quit()

@@ -1,10 +1,10 @@
 from behave import *
-from features.lib.pages import *
 from compare import expect
 
 use_step_matcher("re")
 
-@step('I login automationpractice website')
+@step('I have logged into Automation Practice')
 def step_impl(context):
-    page = LoginPage(context)
-    page.login(username=context.user,passwd=context.passwd)
+    context.su.visit(context.host)
+    context.su.clickElement(context.HeaderFooter.sign_in)
+    context.LoginPage.login(username=context.user,passwd=context.passwd)
