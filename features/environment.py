@@ -79,6 +79,8 @@ def before_scenario(context, scenario):
     context.su = SeleniumUtils(context)
     context.LoginPage = LoginPage(context)
     context.HeaderFooter = HeaderFooter(context)
+    context.MyAccount = MyAccount(context)
+    context.MyAddress = MyAddress(context)
 
 def after_scenario(context, scenario):
     print("   Scenario Status: %s" % (scenario.status))
@@ -86,7 +88,7 @@ def after_scenario(context, scenario):
         if not os.path.exists("screenshots"):
             os.makedirs("screenshots")
         os.chdir("screenshots")
-        context.browser.save_screenshot(scenario.name + "_failed.png")
+        context.wdriver.save_screenshot(scenario.name + "_failed.png")
     # Destroy webdriver after each scenario
     context.wdriver.quit()
 

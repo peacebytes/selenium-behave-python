@@ -1,4 +1,4 @@
-__author__ = 'pmacharl'
+__author__ = 'switbe'
 from selenium.webdriver.common.by import By
 from .base_page_object import BasePage
 

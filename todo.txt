@@ -1,7 +1,6 @@
 # Todo
-1. Html report
-2. Adding more page objects, steps, features
-3. Assertion
+1. Adding more page objects, steps, features
+2. Assertion
 
 # How assertion to be done?
 Values comparison including complex data structure. See usage at:

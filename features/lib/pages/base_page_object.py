@@ -10,7 +10,11 @@ class BasePage(object):
     def __getattr__(self, what):
         try:
             if what in self.locator_dictionary.keys():
-                return self.su.find_element(*self.locator_dictionary[what])
+                listWebElement = self.su.find_elements(*self.locator_dictionary[what])
+                if len(listWebElement) == 1:
+                    return listWebElement[0]
+                else:
+                    return listWebElement
         except AttributeError:
             super(BasePage, self).__getattribute__("method_missing")(what)
 

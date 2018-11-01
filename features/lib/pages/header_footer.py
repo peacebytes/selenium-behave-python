@@ -8,9 +8,9 @@ class HeaderFooter(BasePage):
         BasePage.__init__(self, context)
 
     locator_dictionary = {
-        "sign_in": (By.LINK_TEXT, 'Sign in'),
+        "sign_in": (By.CSS_SELECTOR, 'div.header_user_info > a.login'),
         "contact_us": (By.LINK_TEXT, 'Contact us'),
-        "sign_out": (By.LINK_TEXT, 'Sign out'),
+        "sign_out": (By.CSS_SELECTOR, 'div.header_user_info > a.logout'),
         "my_account": (By.XPATH, '//a[@title="Manage my customer account"]'),
         "account": (By.CSS_SELECTOR, 'div.header_user_info > a.account')
     }

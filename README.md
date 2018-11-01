@@ -4,7 +4,7 @@
 
 This repository is used for automated functional test of web application.
 
-Based on: 
+Based on:
 - selenium
 - behave
 - python
@@ -97,6 +97,10 @@ Again, in step definition files, use global variable by using `context`. For exa
 context.sum = int(context.a) + int(context.b)
 ```
 * Notes: `context` is retained within a test scenario only.
+
+### How assertion to be done?
+Values comparison including complex data structure. See usage at:
+https://pythonhosted.org/compare/#api-reference
 
 ### Reports
 On local: execute this command to see 1 report for each feature file.

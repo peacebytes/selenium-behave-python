@@ -28,8 +28,22 @@ class SeleniumUtils(object):
         # I could have returned element, however because of lazy loading, I am seeking the element before return
         return self.browser.find_element(*loc)
 
-    def find_elements(self, parentELement, *loc):
-        return parentELement.find_elements(*loc)
+    def find_elements(self, *loc):
+        try:
+            element = WebDriverWait(self.browser,self.timeout).until(
+                EC.presence_of_element_located(loc)
+            )
+        except(TimeoutException,StaleElementReferenceException):
+            traceback.print_exc()
+
+        try:
+            element = WebDriverWait(self.browser,self.timeout).until(
+                EC.visibility_of_element_located(loc)
+            )
+        except(TimeoutException,StaleElementReferenceException):
+            traceback.print_exc()
+        # I could have returned element, however because of lazy loading, I am seeking the element before return
+        return self.browser.find_elements(*loc)
 
     def visit(self,url):
         self.browser.get(url)
@@ -50,6 +64,7 @@ class SeleniumUtils(object):
             )
         except(TimeoutException,StaleElementReferenceException):
             traceback.print_exc()
+        webElement.clear()
         webElement.send_keys(text)
 
     def hover(self, element):
@@ -62,3 +77,12 @@ class SeleniumUtils(object):
         ActionChains(self.browser).move_to_element(element).perform()
         # I don't like this but hover is sensitive and needs some sleep time
         time.sleep(5)
+
+    def getTextWebElement(self, webElement):
+        try:
+            webElement = WebDriverWait(self.browser,self.timeout).until(
+                EC.visibility_of(webElement)
+            )
+        except(TimeoutException,StaleElementReferenceException):
+            traceback.print_exc()
+        return webElement.text
