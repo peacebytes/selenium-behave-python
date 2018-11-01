@@ -11,23 +11,6 @@ class SeleniumUtils(object):
         self.timeout = context.timeout
         self.browser = context.wdriver
 
-    def find_element(self, *loc):
-        try:
-            element = WebDriverWait(self.browser,self.timeout).until(
-                EC.presence_of_element_located(loc)
-            )
-        except(TimeoutException,StaleElementReferenceException):
-            traceback.print_exc()
-
-        try:
-            element = WebDriverWait(self.browser,self.timeout).until(
-                EC.visibility_of_element_located(loc)
-            )
-        except(TimeoutException,StaleElementReferenceException):
-            traceback.print_exc()
-        # I could have returned element, however because of lazy loading, I am seeking the element before return
-        return self.browser.find_element(*loc)
-
     def find_elements(self, *loc):
         try:
             element = WebDriverWait(self.browser,self.timeout).until(

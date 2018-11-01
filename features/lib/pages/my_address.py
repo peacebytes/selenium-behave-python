@@ -23,9 +23,9 @@ class MyAddress(BasePage):
     }
 
     def addAddress(self, addressDetails):
-        self.su.clickElement(self.su.find_element(*self.locator_dictionary['addAddressButton']))
+        self.su.clickElement(self.addAddressButton)
         print ("addressDetails['address1']: %s \n" % addressDetails["address1"])
-        self.su.enterText(addressDetails["address1"], self.su.find_element(*self.locator_dictionary['address1']))
+        self.su.enterText(addressDetails["address1"], self.address1)
         # SeleniumUtils.enterText(city, dataAddress.get("city"));
         # SeleniumUtils.clickElementForcefully(id_state);
         # for (WebElement webEle : state_options) {
