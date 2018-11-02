@@ -10,6 +10,5 @@ def step_impl(context):
 @then('I click My Account')
 def step_impl(context):
     context.su.clickElement(context.HeaderFooter.my_account)
-    actualTextmyaccountWelcome = context.su.getTextWebElement(context.MyAccount.myaccountWelcome);
-    print("Found actualTextmyaccountWelcome: %s \n" % actualTextmyaccountWelcome)
+    actualTextmyaccountWelcome = context.su.getTextWebElement(context.MyAccount.myaccountWelcome)
     expect(actualTextmyaccountWelcome.lower()).to_contain('Welcome to your account'.lower())
