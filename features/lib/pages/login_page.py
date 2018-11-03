@@ -1,6 +1,6 @@
-__author__ = 'pmacharl'
+__author__ = 'switbe'
 from selenium.webdriver.common.by import By
-from base_page_object import BasePage
+from .base_page_object import BasePage
 
 
 class LoginPage(BasePage):
@@ -11,11 +11,10 @@ class LoginPage(BasePage):
     }
 
     def __init__(self, context):
-        BasePage.__init__(
-            self,
-            context.browser)
+        BasePage.__init__(self, context)
+        self.su = context.su
 
-    def login(self,username="abc@xyz.com",passwd="Test@123"):
-        self.find_element(*self.locator_dictionary['email']).send_keys(username)
-        self.find_element(*self.locator_dictionary['password']).send_keys(passwd)
-        self.find_element(*self.locator_dictionary['signin_button']).click()
+    def login(self,username,passwd):
+        self.su.enter_text(username, self.email)
+        self.su.enter_text(passwd, self.password)
+        self.su.click_element(self.signin_button)

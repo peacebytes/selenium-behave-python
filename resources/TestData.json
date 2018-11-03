@@ -1,0 +1,31 @@
+{
+  "addresses": [
+    {
+      "address1": "Python1 Address",
+      "city": "city Python1",
+      "state_option": "Washington",
+      "postcode": "02123",
+      "country_option": "United States",
+      "phone": "3424443333",
+      "alias": "Python1"
+    },
+    {
+      "address1": "Python2 Address",
+      "city": "city Python2",
+      "state_option": "Washington",
+      "postcode": "02123",
+      "country_option": "United States",
+      "phone": "3424443333",
+      "alias": "Python2"
+    }
+  ],
+  "address":{
+    "address1": "Python Random Name Address",
+    "city": "city Python Random Name",
+    "state_option": "Washington",
+    "postcode": "02123",
+    "country_option": "United States",
+    "phone": "3424443333",
+    "alias": "Python Random Name"
+  }
+}

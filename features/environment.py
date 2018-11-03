@@ -1,86 +1,101 @@
 from selenium import webdriver
-# If you don't see colors (RED and GREEN) on command line, add the below lines
 from colorama import init
 init()
 import os
-import zipfile
-import shutil
-import time
-import logging
 from lib.pagefactory import on
-
-
+from selenium.webdriver.chrome.options import Options
+# noinspection PyInterpreter
+from configparser import SafeConfigParser
+import json
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from features.lib.utils import SeleniumUtils
+from features.lib.pages import *
 
 def before_all(context):
-     print("Executing before all")
+     print("Loading Configs.ini and TestData.json ...")
+     # Loading configs.ini
+     config = SafeConfigParser()
+     config.read('./resources/Configs.ini')
+     #Config
+     context.host = config.get('config', 'host')
+     context.user = config.get('config', 'user')
+     context.passwd = config.get('config', 'passwd')
+     context.browser = config.get('config', 'browser')
+     context.env = config.get('config', 'env')
+     context.timeout = config.getint('config', 'timeout')
+     #BS
+     context.bsusername = config.get('browserstack', 'USERNAME')
+     context.bsautomate_key = config.get('browserstack', 'AUTOMATE_KEY')
+     context.os = config.get('browserstack', 'os')
+
+     # Loading testdata.json
+     with open('./resources/TestData.json', 'r') as f:
+            context.testdata = json.load(f)
 
 def before_feature(context, feature):
-     print("Before feature\n")
-     # Create logger
-     # TODO - http://stackoverflow.com/questions/6386698/using-the-logging-python-class-to-write-to-a-file
-     context.logger = logging.getLogger('seleniumframework_tests')
-     hdlr = logging.FileHandler('seleniumframework_tests.log')
-     formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-     hdlr.setFormatter(formatter)
-     context.logger.addHandler(hdlr)
-     context.logger.setLevel(logging.DEBUG)
+    print("\nFeature being executed: %s" % feature.name)
 
 # Scenario level objects are popped off context when scenario exits
-
 def before_scenario(context, scenario):
-    print("User data:", context.config.userdata)
-    # behave -D BROWSER=chrome
-    if 'BROWSER' in context.config.userdata.keys():
-        if context.config.userdata['BROWSER'] is None:
-            BROWSER = 'chrome'
+    # behave -D browser=chrome -D env=bs
+    if 'browser' in context.config.userdata.keys():
+     if context.config.userdata['browser'] is not None:
+      context.browser = context.config.userdata['browser']
+
+    if 'env' in context.config.userdata.keys():
+     if context.config.userdata['env'] is not None:
+      context.env = context.config.userdata['env']
+
+    BROWSER = context.browser;
+    ENV = context.env;
+    # Set up webdriver before each scenario
+    if ENV == 'local':
+        if BROWSER == 'chrome':
+            context.wdriver = webdriver.Chrome()
+        elif BROWSER == 'firefox':
+            context.wdriver = webdriver.Firefox()
+        elif BROWSER == 'headless':
+            chrome_options = Options()
+            chrome_options.add_argument("--headless")
+            context.wdriver = webdriver.Chrome(chrome_options=chrome_options)
         else:
-            BROWSER = context.config.userdata['BROWSER']
+            print("Browser you entered [%s] is not supported." % BROWSER)
+    elif ENV == 'bs':
+        print("Setting up browserstack connection ...")
+        caps = {}
+        caps['browser'] = BROWSER
+        caps['os'] = context.os
+        context.wdriver = webdriver.Remote(
+        desired_capabilities=caps,
+        command_executor="http://%s:%s@hub.browserstack.com/wd/hub" % (context.bsusername, context.bsautomate_key))
     else:
-        BROWSER = 'chrome'
-    # For some reason, python doesn't have switch case -
-    # http://stackoverflow.com/questions/60208/replacements-for-switch-statement-in-python
-    if BROWSER == 'chrome':
-        context.browser = webdriver.Chrome()
-    elif BROWSER == 'firefox':
-        context.browser = webdriver.Firefox()
-    elif BROWSER == 'safari':
-        context.browser = webdriver.Safari()
-    elif BROWSER == 'ie':
-        context.browser = webdriver.Ie()
-    elif BROWSER == 'opera':
-        context.browser = webdriver.Opera()
-    elif BROWSER == 'phantomjs':
-        context.browser = webdriver.PhantomJS()
-    else:
-        print("Browser you entered:", BROWSER, "is invalid value")
+        print("Env you entered [%s] is not supported." % ENV)
 
-    context.browser.maximize_window()
-    print("Before scenario\n")
+    # Clear cookies before each scenario
+    context.wdriver.delete_all_cookies();
+    context.wdriver.maximize_window()
 
+    # Initialize page objects here
+    context.su = SeleniumUtils(context)
+    context.LoginPage = LoginPage(context)
+    context.HeaderFooter = HeaderFooter(context)
+    context.MyAccount = MyAccount(context)
+    context.MyAddress = MyAddress(context)
 
 def after_scenario(context, scenario):
-    print("scenario status: %s" % (scenario.status))
+    print("   Scenario Status: %s" % (scenario.status))
     if scenario.status == "failed":
-        if not os.path.exists("failed_scenarios_screenshots"):
-            os.makedirs("failed_scenarios_screenshots")
-        os.chdir("failed_scenarios_screenshots")
-        context.browser.save_screenshot(scenario.name + "_failed.png")
-    context.browser.quit()
+        if not os.path.exists("./screenshots"):
+            os.makedirs("screenshots")
+        os.chdir("./screenshots")
+        context.wdriver.save_screenshot(scenario.name + "_failed.png")
+        os.chdir("..")
+
+    # Destroy webdriver after each scenario
+    context.wdriver.quit()
 
 def after_feature(context, feature):
-            print("\nAfter Feature")
+     print("\nExecution Feature [" + feature.name + "] is complete.")
 
 def after_all(context):
-    print("User data:", context.config.userdata)
-    # behave -D ARCHIVE=Yes
-    if 'ARCHIVE' in context.config.userdata.keys():
-        if os.path.exists("failed_scenarios_screenshots"):
-            os.rmdir("failed_scenarios_screenshots")
-            os.makedirs("failed_scenarios_screenshots")
-        if context.config.userdata['ARCHIVE'] == "Yes":
-            shutil.make_archive(
-    time.strftime("%d_%m_%Y"),
-    'zip',
-     "failed_scenarios_screenshots")
-            #os.rmdir("failed_scenarios_screenshots")
-            print("Executing after all")
+    print("All done!")

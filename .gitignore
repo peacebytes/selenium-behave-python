@@ -1,4 +1,6 @@
 *.log
-failed_scenarios_screenshots
+screenshots
 venv
 reports
+*.pyc
+.idea
