@@ -85,10 +85,12 @@ def before_scenario(context, scenario):
 def after_scenario(context, scenario):
     print("   Scenario Status: %s" % (scenario.status))
     if scenario.status == "failed":
-        if not os.path.exists("screenshots"):
+        if not os.path.exists("./screenshots"):
             os.makedirs("screenshots")
-        os.chdir("screenshots")
+        os.chdir("./screenshots")
         context.wdriver.save_screenshot(scenario.name + "_failed.png")
+        os.chdir("..")
+
     # Destroy webdriver after each scenario
     context.wdriver.quit()
 
