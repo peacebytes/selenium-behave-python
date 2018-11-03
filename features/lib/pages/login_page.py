@@ -15,6 +15,6 @@ class LoginPage(BasePage):
         self.su = context.su
 
     def login(self,username,passwd):
-        self.su.enterText(username, self.email)
-        self.su.enterText(passwd, self.password)
-        self.su.clickElement(self.signin_button)
+        self.su.enter_text(username, self.email)
+        self.su.enter_text(passwd, self.password)
+        self.su.click_element(self.signin_button)

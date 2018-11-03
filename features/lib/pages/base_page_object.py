@@ -1,6 +1,3 @@
-import traceback
-import time
-
 class BasePage(object):
 
     def __init__(self, context):
@@ -10,7 +7,7 @@ class BasePage(object):
     def __getattr__(self, what):
         try:
             if what in self.locator_dictionary.keys():
-                listWebElement = self.su.find_elements(*self.locator_dictionary[what])
+                listWebElement = self.su.get_elements(*self.locator_dictionary[what])
                 if len(listWebElement) == 1:
                     return listWebElement[0]
                 else:

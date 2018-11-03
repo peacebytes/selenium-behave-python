@@ -1,8 +1,0 @@
-# Todo
-1. Adding more page objects, steps, features
-2. Assertion
-
-# How assertion to be done?
-Values comparison including complex data structure. See usage at:
-Ref: https://pypi.org/project/compare/
-Use: https://pythonhosted.org/compare/#api-reference

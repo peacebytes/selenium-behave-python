@@ -22,34 +22,76 @@ class MyAddress(BasePage):
         "selected_country": (By.CSS_SELECTOR, "#uniform-id_country > span"),
         "selected_state": (By.CSS_SELECTOR, "#uniform-id_state > span"),
         "addressesList": (By.CSS_SELECTOR, "div.address"),
-        "addressLines": (By.CSS_SELECTOR, "ul > li")
+        "addressLines": (By.CSS_SELECTOR, "ul > li"),
+        "update_btn": (By.XPATH, "a[@title='Update']"),
+        "delete_btn": (By.XPATH, "a[@title='Delete']"),
     }
 
-    def getAddressDetails(self, parentElement):
-        return self.su.find_elementsUnderParentElement(parentElement, *self.locator_dictionary['addressLines'])
+    def get_address_details(self, parentElement):
+        return self.su.find_elements_under_parent_element(parentElement, *self.locator_dictionary['addressLines'])
 
-    def isAddressExisted(self, addressName):
+    def is_address_existed(self, address_alias):
         for webEle in self.addressesList:
-            addr = self.su.getTextWebElement(self.getAddressDetails(webEle)[0])
-            print("Got addr : %s \n" % addr)
-            if (addr.lower()==(addressName.lower())):
+            checking_address_alias = self.su.get_text_web_element(self.get_address_details(webEle)[0])
+            if checking_address_alias.lower() == address_alias.lower():
                 return True
         return False
 
-    def addAddress(self, addressDetails):
-        if (self.isAddressExisted(addressDetails["alias"]) is False):
-            self.su.clickElement(self.addAddressButton)
-            self.su.enterText(addressDetails["address1"], self.address1)
-            self.su.enterText(addressDetails["city"], self.city)
-            defaultState = self.su.getTextWebElement(self.selected_state)
-            if (defaultState != addressDetails["state_option"]):
-                self.su.clickElementForcefully(self.id_state)
-                self.su.selectOptionFromSelectList(addressDetails["state_option"], self.state_options)
-            self.su.enterText(addressDetails["postcode"], self.postcode)
-            defaultCountry = self.su.getTextWebElement(self.selected_country)
-            if (defaultCountry != addressDetails["country_option"]):
-                self.su.clickElementForcefully(self.id_country)
-                self.su.selectOptionFromSelectList(addressDetails["country_option"], self.country_options)
-            self.su.enterText(addressDetails["phone"], self.phone)
-            self.su.enterText(addressDetails["alias"], self.alias)
-            self.su.clickElement(self.submitAddressButton)
+    def delete_address(self, address_alias):
+        flag = False
+        for webEle in self.addressesList:
+            list_address_detail_lines = self.get_address_details(webEle)
+            #For each address item, check for its alias
+            checking_address_alias = self.su.get_text_web_element(list_address_detail_lines[0])
+            if checking_address_alias.lower() == address_alias.lower():
+                #Click Delete button on address item to be removed
+                delete_address_button = self.su.find_elements_under_parent_element(list_address_detail_lines[-1], *self.locator_dictionary['delete_btn'])
+                self.su.click_element(delete_address_button)
+                self.su.wait_for_alert_then_accept()
+                flag = True
+                break
+
+        #Return "True" if deleting address has happened, otherwise, return False
+        return flag
+
+    def update_address (self, address_alias):
+        new_address_alias = None
+        for webEle in self.addressesList:
+            list_address_detail_lines = self.get_address_details(webEle)
+            #For each address item, check for its alias
+            checking_address_alias = self.su.get_text_web_element(list_address_detail_lines[0])
+            if checking_address_alias.lower() == address_alias.lower():
+                #Click Update button on address item to be updated
+                update_address_button = self.su.find_elements_under_parent_element(list_address_detail_lines[-1], *self.locator_dictionary['update_btn'])
+                self.su.click_element(update_address_button)
+                #Updates go here
+                self.su.enter_text(self.su.get_value_web_element(self.address1) + "Updated", self.address1)
+                self.su.enter_text(self.su.get_value_web_element(self.city) + "Updated", self.city)
+                new_address_alias = self.su.get_value_web_element(self.alias) + "Updated"
+                self.su.enter_text(new_address_alias, self.alias)
+                self.su.click_element(self.submitAddressButton)
+                break
+
+        #Return new value of alias if address updating has happened, otherwise, return None
+        return new_address_alias
+
+    def add_address(self, addressDetails):
+        flag = self.is_address_existed(addressDetails["alias"])
+        if flag is False:
+            self.su.click_element(self.addAddressButton)
+            self.su.enter_text(addressDetails["address1"], self.address1)
+            self.su.enter_text(addressDetails["city"], self.city)
+            defaultState = self.su.get_text_web_element(self.selected_state)
+            if defaultState != addressDetails["state_option"]:
+                self.su.click_element_forcefully(self.id_state)
+                self.su.select_option_from_select_list(addressDetails["state_option"], self.state_options)
+            self.su.enter_text(addressDetails["postcode"], self.postcode)
+            defaultCountry = self.su.get_text_web_element(self.selected_country)
+            if defaultCountry != addressDetails["country_option"]:
+                self.su.click_element_forcefully(self.id_country)
+                self.su.select_option_from_select_list(addressDetails["country_option"], self.country_options)
+            self.su.enter_text(addressDetails["phone"], self.phone)
+            self.su.enter_text(addressDetails["alias"], self.alias)
+            self.su.click_element(self.submitAddressButton)
+        #Return "True" if adding address has happened, otherwise, return False
+        return not flag

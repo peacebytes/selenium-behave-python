@@ -5,7 +5,7 @@ import os
 from lib.pagefactory import on
 from selenium.webdriver.chrome.options import Options
 # noinspection PyInterpreter
-from ConfigParser import SafeConfigParser
+from configparser import SafeConfigParser
 import json
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from features.lib.utils import SeleniumUtils
