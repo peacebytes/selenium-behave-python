@@ -2,14 +2,13 @@
 
 ### What is this? ###
 
-This repository is used for automated functional test of web application.
+This repository is an example for automated functional test of web application.
 
 Based on:
 - selenium
 - behave
 - python
 
-* Note: Python version >= 3.7
 ```
 sudo add-apt-repository ppa:deadsnakes/ppa
 sudo apt-get update
@@ -55,7 +54,7 @@ behave --tags @wip
 
 Running on browser: chrome, env: local
 ```
-behave -D browser=chrome -D env=local
+behave -D browser=chrome
 ```
 
 Execute testing specific feature files and selected browser
@@ -109,3 +108,10 @@ junit2html reports/TESTS-testcases.Smoketest.xml reports/behave.Smoketest.html
 google-chrome reports/behave.Smoketest.html
 ```
 On Jenkins: feeding cucumber-report with json file at `reports/results.json`.
+
+### Steps to add new test cases
+- Adding feature file to folder `features\testcases`. See existing feature files and try to reuse defined steps.
+- Adding new Page Object to `features\lib\pages`. Copy existing ones and start from there. For example: `MyAddress.py`
+- Updating `features\lib\pages\__init__.py` to include new page object
+- Updating `features\environment.py` line `78` to initialize new page objects.
+- Adding new Step Definition file for new Page Object at `features\steps`. Copy existing step files and start from tehre. For example: `MyAddressSteps.py`

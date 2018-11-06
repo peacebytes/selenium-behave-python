@@ -59,7 +59,7 @@ class SeleniumUtils(object):
 
     def wait_for_web_element(self, webElement):
         try:
-            webElement = WebDriverWait(self.browser,self.timeout).until(
+            WebDriverWait(self.browser,self.timeout).until(
                 EC.visibility_of(webElement)
             )
         except TimeoutException:
