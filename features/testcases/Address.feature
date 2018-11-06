@@ -16,7 +16,6 @@ Feature: Addresses
         Then I update address "PYTHON2"
         And I log out Automation Practice
 
-
     Scenario: Delete Address
         Given I have logged into Automation Practice
         Then I click My Account

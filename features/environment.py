@@ -72,7 +72,7 @@ def before_scenario(context, scenario):
         print("Env you entered [%s] is not supported." % ENV)
 
     # Clear cookies before each scenario
-    context.wdriver.delete_all_cookies();
+    context.wdriver.delete_all_cookies()
     context.wdriver.maximize_window()
 
     # Initialize page objects here
