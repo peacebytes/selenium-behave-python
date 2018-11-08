@@ -5,7 +5,7 @@ import os
 from lib.pagefactory import on
 from selenium.webdriver.chrome.options import Options
 # noinspection PyInterpreter
-from configparser import SafeConfigParser
+from configparser import ConfigParser
 import json
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from features.lib.utils import SeleniumUtils
@@ -14,7 +14,7 @@ from features.lib.pages import *
 def before_all(context):
      print("Loading Configs.ini and TestData.json ...")
      # Loading configs.ini
-     config = SafeConfigParser()
+     config = ConfigParser()
      config.read('./resources/Configs.ini')
      #Config
      context.host = config.get('config', 'host')
