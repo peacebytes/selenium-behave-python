@@ -7,3 +7,4 @@ pyyaml==3.11
 compare==0.2b
 junit2html==022
 2to3==1.0
+configparser==3.5.0
