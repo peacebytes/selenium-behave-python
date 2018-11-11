@@ -107,7 +107,14 @@ On local: execute this command to see 1 report for each feature file.
 junit2html reports/TESTS-testcases.Smoketest.xml reports/behave.Smoketest.html
 google-chrome reports/behave.Smoketest.html
 ```
-On Jenkins: feeding cucumber-report with json file at `reports/results.json`.
+On Jenkins: Build with these command lines:
+```
+pip install -r requirement.text
+behave
+export PYTHONPATH=.
+python convert2cucumber.py reports/output.json
+```
+Then use Cucumber Report plugin to generate HTML report.
 
 ### Steps to add new test cases
 - Adding feature file to folder `features\testcases`. See existing feature files and try to reuse defined steps.
