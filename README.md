@@ -109,7 +109,7 @@ google-chrome reports/behave.Smoketest.html
 ```
 On Jenkins: Build with these command lines:
 ```
-pip install -r requirement.text
+pip install -r requirements.text
 behave
 export PYTHONPATH=.
 python convert2cucumber.py reports/output.json
